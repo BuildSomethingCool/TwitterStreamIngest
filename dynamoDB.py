@@ -1,0 +1,68 @@
+import boto3
+import creds
+import time
+
+
+landingTableName = "RawTweets"
+
+
+def create_landing_table(dynamodb=None):
+    if not dynamodb:
+        dynamodb = boto3.resource('dynamodb', endpoint_url=f"http://{creds.docker['endpoint']}:{creds.docker['port']}")
+
+    table = dynamodb.create_table(
+        TableName=landingTableName,
+        KeySchema=[
+            {
+                'AttributeName': 'id',
+                'KeyType': 'HASH'  # Partition key
+            }
+        ],
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'id',
+                'AttributeType': 'S'
+            },
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 10,
+            'WriteCapacityUnits': 10
+        }
+    )
+    status = table.table_status
+    while status != "ACTIVE":
+        time.sleep(3)
+        status = table.table_status
+    return table
+
+
+def index_tweet(tweet):
+    if creds.env == 'dev':
+        dynamodb = boto3.resource('dynamodb', endpoint_url=f"http://{creds.docker['endpoint']}:{creds.docker['port']}")
+        dynamo_client = boto3.client('dynamodb',
+                                     endpoint_url=f"http://{creds.docker['endpoint']}:{creds.docker['port']}")
+    else:
+        dynamodb = boto3.resource('dynamodb')
+        dynamo_client = boto3.client('dynamodb')
+
+    table = dynamodb.Table(landingTableName)
+    tables = dynamo_client.list_tables()
+    print(f"tables: {tables}")
+    response = dynamo_client.describe_table(TableName=landingTableName)
+
+    status = response['Table']['TableStatus']
+    while status != 'ACTIVE':
+        time.sleep(5)
+        response = dynamo_client.describe_table(TableName=landingTableName)
+        status = response['Table']['TableStatus']
+
+    response = table.put_item(
+        Item=tweet
+    )
+    return response
+
+
+
+if __name__ == '__main__':
+    landing_table = create_landing_table()
+    print("Table status:", landing_table.table_status)

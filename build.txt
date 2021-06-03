@@ -1,0 +1,14 @@
+docker build -t redpheonix77/personal:twitteringest .
+
+docker push redpheonix77/personal:twitteringest
+
+docker pull redpheonix77/personal:twitteringest
+
+
+docker run -it redpheonix77/personal:twitteringest
+
+
+
+
+# run dynamo on localhost:8000
+docker run -p 8000:8000 amazon/dynamodb-local
