@@ -1,14 +1,27 @@
-docker build -t redpheonix77/personal:twitteringest .
+docker login -u redpheonix77 -p DallasCowboys214
 
-docker push redpheonix77/personal:twitteringest
+docker build -t redpheonix77/twitteringest .
 
-docker pull redpheonix77/personal:twitteringest
+docker push redpheonix77/twitteringest
+
+docker pull redpheonix77/twitteringest
 
 
-docker run -it redpheonix77/personal:twitteringest
+docker run -it redpheonix77/twitteringest
 
-
+public.ecr.aws/t9y1m9m9/twitter_ingest
 
 
 # run dynamo on localhost:8000
+docker build -t 777377719930.dkr.ecr.us-east-2.amazonaws.com/twitter_ingest:latest .
+
+docker push
+
 docker run -p 8000:8000 amazon/dynamodb-local
+
+777377719930.dkr.ecr.us-east-2.amazonaws.com/twitter_ingest:latest
+
+
+
+
+docker tag hello-world:latest aws_account_id.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest

@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Cloudformation for ECS deploy for twitter stream pipeline ingestion script. This runs on fargate
+Properties:
+  owner:
+    Type: String
+    Description: Your email, for cost-tracking
+  App:
+    Type: String
+    Desctiption: Project this cluster is used for
+Resources:
+  ECSCluster:
+    Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: TwitterIngest
+      CapacityProviders:
+        - FARGATE_SPOT
+      DefaultCapacityProviderStrategy:
+        - CapacityProvider: FARGATE_SPOT
+          Weight: 1
+      Tags: [
+        {
+          "Key": "owner",
+          "Value": !Ref owner
+        },
+        {
+          "Key": "app",
+          "Value": !Ref App
+        }
+      ]
+  taskdefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      ContainerDefinitions:
+        -
+          Name:
+            Ref: "IngestTweets"
+            Image: "redpheonix77/twitteringest"
+            Cpu: 256
+            Memory: 512
+            Essential: true

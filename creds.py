@@ -7,4 +7,4 @@ docker = {
     "endpoint": "localhost",
     "port": 8000
 }
-env = "dev"
+env = "prod"
