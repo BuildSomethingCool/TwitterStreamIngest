@@ -7,5 +7,6 @@ COPY creds.py .
 COPY streamTwitter.py .
 COPY dynamoDB.py .
 COPY secretsManager.py .
+COPY filtered_stream.py .
 RUN pip3 install -r requirements.txt
 ENTRYPOINT ["python3",  "streamTwitter.py"]
