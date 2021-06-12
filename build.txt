@@ -1,4 +1,4 @@
-docker login -u redpheonix77 -p DallasCowboys214
+docker login -u redpheonix77 -p 
 
 docker build -t redpheonix77/twitteringest .
 
