@@ -1,0 +1,16 @@
+{
+  "cluster": "twitterIngest",
+  "task-definition": "ingest_tweets",
+  "count": 1,
+  "network-configuration": {
+    "awsvpcConfiguration": {
+      "subnets": [
+        "subnet-07afa47d"
+      ],
+      "securityGroups": [
+        "sg-826631fd"
+      ],
+      "assignPublicIp": "ENABLED"
+    }
+  }
+}

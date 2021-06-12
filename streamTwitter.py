@@ -4,6 +4,7 @@ import creds
 import logging
 from secretsManager import get_secret
 from dynamoDB import index_tweet
+from filtered_stream import connect_to_stream_and_ingest
 
 
 logger = logging.getLogger("twitter stream")
@@ -11,9 +12,6 @@ logger.setLevel(logging.INFO)
 
 endpoint = "https://api.twitter.com/2/tweets/sample/stream"
 auth = get_secret()
-# token = creds.api_details['bearerToken']
-# print(auth)
-# logger.info(f"auth {auth}")
 token = auth['bearerToken']
 headers = {"Authorization": "Bearer {}".format(token)}
 
@@ -37,11 +35,8 @@ def connect_to_endpoint(url):
 
 
 def main():
-    # timeout = 0
-    # while timeout < 5:
-    #     connect_to_endpoint(endpoint)
-    #     timeout += 1
-    connect_to_endpoint(endpoint)
+    # connect_to_endpoint(endpoint)
+    connect_to_stream_and_ingest("dogs")
 
 
 if __name__ == "__main__":
