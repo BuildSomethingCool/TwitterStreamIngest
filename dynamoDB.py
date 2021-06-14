@@ -1,17 +1,19 @@
 import boto3
 import creds
 import time
+import logging
 
 
 landingTableName = "RawTweets"
+logger = logging.getLogger('dynamo')
 
 
-def create_landing_table(dynamodb=None):
+def create_landing_table(dynamodb=None, table_name=landingTableName):
     if not dynamodb:
         dynamodb = boto3.resource('dynamodb', endpoint_url=f"http://{creds.docker['endpoint']}:{creds.docker['port']}")
 
     table = dynamodb.create_table(
-        TableName=landingTableName,
+        TableName=table_name,
         KeySchema=[
             {
                 'AttributeName': 'id',
@@ -36,7 +38,7 @@ def create_landing_table(dynamodb=None):
     return table
 
 
-def index_tweet(tweet):
+def index_tweet(tweet, table_name):
     if creds.env == 'dev':
         dynamodb = boto3.resource('dynamodb', endpoint_url=f"http://{creds.docker['endpoint']}:{creds.docker['port']}")
         dynamo_client = boto3.client('dynamodb',
@@ -45,15 +47,15 @@ def index_tweet(tweet):
         dynamodb = boto3.resource('dynamodb')
         dynamo_client = boto3.client('dynamodb')
 
-    table = dynamodb.Table(landingTableName)
+    table = dynamodb.Table(table_name)
     tables = dynamo_client.list_tables()
     print(f"tables: {tables}")
-    response = dynamo_client.describe_table(TableName=landingTableName)
+    response = dynamo_client.describe_table(TableName=table_name)
 
     status = response['Table']['TableStatus']
     while status != 'ACTIVE':
         time.sleep(5)
-        response = dynamo_client.describe_table(TableName=landingTableName)
+        response = dynamo_client.describe_table(TableName=table_name)
         status = response['Table']['TableStatus']
 
     response = table.put_item(

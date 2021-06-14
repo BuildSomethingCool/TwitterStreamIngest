@@ -23,7 +23,7 @@ def connect_to_endpoint(url):
         if response_line:
             json_response = json.loads(response_line)
             tweet = json_response["data"]
-            index_tweet(tweet)
+            index_tweet(tweet, 'RawTweets')
             # print(tweet)
             # logger.log(json.dumps(json_response, indent=4, sort_keys=True))
     if response.status_code != 200:
@@ -36,7 +36,8 @@ def connect_to_endpoint(url):
 
 def main():
     # connect_to_endpoint(endpoint)
-    connect_to_stream_and_ingest("dogs")
+    topic = 'phoenix suns'
+    connect_to_stream_and_ingest(topic)
 
 
 if __name__ == "__main__":

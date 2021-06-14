@@ -1,16 +1,37 @@
 {
-  "cluster": "twitterIngest",
-  "task-definition": "ingest_tweets",
-  "count": 1,
-  "network-configuration": {
-    "awsvpcConfiguration": {
-      "subnets": [
-        "subnet-07afa47d"
-      ],
-      "securityGroups": [
-        "sg-826631fd"
-      ],
-      "assignPublicIp": "ENABLED"
-    }
-  }
+   "capacityProviderStrategy": [
+      {
+         "capacityProvider": "FARGATE_SPOT",
+         "weight": 1,
+         "base": 0
+      }
+   ],
+   "cluster": "AWSBatch-refresh-dynamo-bf4005a1-e1ce-3330-bc29-70a747d48019",
+   "count": 1,
+   "enableECSManagedTags": true,
+   "networkConfiguration": {
+      "awsvpcConfiguration": {
+         "assignPublicIp": "ENABLED",
+         "securityGroups": [
+            "sg-826631fd"
+         ],
+         "subnets": [
+            "subnet-07afa47d"
+         ]
+      }
+   },
+   "overrides": {},
+   "platformVersion": "LATEST",
+   "tags": [
+      {
+         "key": "owner",
+         "value": "mikebrumfield30@gmail.com"
+      },
+      {
+         "key": "Project",
+         "value": "Twitter Stream"
+      }
+   ],
+   "taskDefinition": "ingest_tweets:1"
 }
+
