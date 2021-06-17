@@ -14,7 +14,7 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
         dynamodb = boto3.resource('dynamodb')
 
     dynamo_client = boto3.client('dynamodb')
-    existing_tables_map = json.loads(dynamo_client.list_tables())
+    existing_tables_map = dynamo_client.list_tables()
     existing_tables = existing_tables_map['TableNames']
     for table in existing_tables:
         if table.lower() == table_name.lower():
