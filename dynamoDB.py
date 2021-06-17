@@ -16,15 +16,15 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
     dynamo_client = boto3.client('dynamodb')
     existing_tables_map = dynamo_client.list_tables()
     existing_tables = existing_tables_map['TableNames']
-    logger.info(f"Table to create: {table_name}")
-    logger.info(f"Tables that exist: {existing_tables}")
+    print(f"Table to create: {table_name}")
+    print(f"Tables that exist: {existing_tables}")
     for table in existing_tables:
         if table.lower() == table_name.lower():
-            logger.info(f"Table match done, deleting table {table}")
+            print(f"Table match done, deleting table {table}")
             response = dynamo_client.delete_table(
                 TableName=table
             )
-            logger.info(f"Response: {response}")
+            print(f"Response: {response}")
 
     table = dynamodb.create_table(
         TableName=table_name,
