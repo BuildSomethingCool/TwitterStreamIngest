@@ -10,7 +10,7 @@ logger = logging.getLogger('dynamo')
 
 def create_landing_table(dynamodb=None, table_name=landingTableName):
     if not dynamodb:
-        dynamodb = boto3.resource('dynamodb', endpoint_url=f"http://{creds.docker['endpoint']}:{creds.docker['port']}")
+        dynamodb = boto3.resource('dynamodb')
 
     table = dynamodb.create_table(
         TableName=table_name,

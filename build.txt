@@ -22,6 +22,6 @@ docker run -p 8000:8000 amazon/dynamodb-local
 777377719930.dkr.ecr.us-east-2.amazonaws.com/twitter_ingest:latest
 
 
-
+aws --profile default ecs run-task --cli-input-json file://launchConfig.json
 
 docker tag hello-world:latest aws_account_id.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
