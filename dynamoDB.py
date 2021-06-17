@@ -26,6 +26,13 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
             )
             print(f"Response: {response}")
 
+    still_exists = True
+    while still_exists:
+        existing_tables_map = dynamo_client.list_tables()
+        existing_tables = existing_tables_map['TableNames']
+        if table_name not in existing_tables:
+            still_exists = False
+
     table = dynamodb.create_table(
         TableName=table_name,
         KeySchema=[
