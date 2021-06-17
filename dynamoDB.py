@@ -2,6 +2,7 @@ import boto3
 import creds
 import time
 import logging
+import json
 
 
 landingTableName = "RawTweets"
@@ -11,6 +12,15 @@ logger = logging.getLogger('dynamo')
 def create_landing_table(dynamodb=None, table_name=landingTableName):
     if not dynamodb:
         dynamodb = boto3.resource('dynamodb')
+
+    dynamo_client = boto3.client('dynamodb')
+    existing_tables_map = json.loads(dynamo_client.list_tables())
+    existing_tables = existing_tables_map['TableNames']
+    for table in existing_tables:
+        if table.lower() == table_name.lower():
+            response = dynamo_client.delete_table(
+                TableName=table
+            )
 
     table = dynamodb.create_table(
         TableName=table_name,
@@ -27,8 +37,8 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
             },
         ],
         ProvisionedThroughput={
-            'ReadCapacityUnits': 10,
-            'WriteCapacityUnits': 10
+            'ReadCapacityUnits': 5,
+            'WriteCapacityUnits': 5
         }
     )
     status = table.table_status
