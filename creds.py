@@ -8,3 +8,4 @@ docker = {
     "port": 8000
 }
 env = "prod"
+wait = 5

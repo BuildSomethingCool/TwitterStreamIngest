@@ -3,8 +3,9 @@ import creds
 import time
 import logging
 import json
+import sys
 
-
+wait_time = creds.wait
 landingTableName = "RawTweets"
 logger = logging.getLogger('dynamo')
 
@@ -28,6 +29,9 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
 
     still_exists = True
     while still_exists:
+        import time
+        time.sleep(5)
+        print('table still exists')
         existing_tables_map = dynamo_client.list_tables()
         existing_tables = existing_tables_map['TableNames']
         if table_name not in existing_tables:
