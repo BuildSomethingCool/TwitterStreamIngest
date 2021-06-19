@@ -6,6 +6,7 @@ import logging
 
 logger = logging.getLogger('secretsManager')
 
+
 def get_secret():
     secret_name = "TwitterApiAuth"
     region_name = "us-east-2"

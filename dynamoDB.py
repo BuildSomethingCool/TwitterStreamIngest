@@ -33,15 +33,19 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
 
     still_exists = True
     while still_exists:
-        import time
         time.sleep(5)
         print('table still exists')
         logger.info(f"Table still exists")
         existing_tables_map = dynamo_client.list_tables()
         existing_tables = existing_tables_map['TableNames']
+        print(f"Table names after waiting 5 secs: {existing_tables}")
         if table_name not in existing_tables:
+            print(f"Setting boolean to false")
             still_exists = False
+        else:
+            continue
 
+    print(f"Deletion done, now creating table {table_name}")
     table = dynamodb.create_table(
         TableName=table_name,
         KeySchema=[
@@ -64,7 +68,11 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
     status = table.table_status
     while status != "ACTIVE":
         time.sleep(3)
+        table = dynamodb.Table(table_name)
+        print(f"status: {status}\n table {table}")
         status = table.table_status
+
+    print(f"status is {status} returning {table}")
     return table
 
 
