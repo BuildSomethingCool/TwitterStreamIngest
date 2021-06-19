@@ -19,12 +19,16 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
     existing_tables = existing_tables_map['TableNames']
     print(f"Table to create: {table_name}")
     print(f"Tables that exist: {existing_tables}")
+    logger.info(f"Table to create {table_name}")
+    logger.info(f"Tables that exist: {existing_tables}")
     for table in existing_tables:
         if table.lower() == table_name.lower():
             print(f"Table match done, deleting table {table}")
+            logger.info(f"Table match done, deleting table {table}")
             response = dynamo_client.delete_table(
                 TableName=table
             )
+            logger.info(f"Response: {response}")
             print(f"Response: {response}")
 
     still_exists = True
@@ -32,6 +36,7 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
         import time
         time.sleep(5)
         print('table still exists')
+        logger.info(f"Table still exists")
         existing_tables_map = dynamo_client.list_tables()
         existing_tables = existing_tables_map['TableNames']
         if table_name not in existing_tables:
@@ -75,6 +80,7 @@ def index_tweet(tweet, table_name):
     table = dynamodb.Table(table_name)
     tables = dynamo_client.list_tables()
     print(f"tables: {tables}")
+    logger.info(f"Tables: {tables}")
     response = dynamo_client.describe_table(TableName=table_name)
 
     status = response['Table']['TableStatus']
@@ -87,7 +93,6 @@ def index_tweet(tweet, table_name):
         Item=tweet
     )
     return response
-
 
 
 if __name__ == '__main__':
