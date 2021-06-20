@@ -8,5 +8,6 @@ COPY streamTwitter.py .
 COPY dynamoDB.py .
 COPY secretsManager.py .
 COPY filtered_stream.py .
+COPY execute_timed_ingestion.sh .
 RUN pip3 install -r requirements.txt
-ENTRYPOINT ["python3",  "streamTwitter.py"]
+ENTRYPOINT ["bash",  "execute_timed_ingestion.sh"]

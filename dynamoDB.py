@@ -100,6 +100,7 @@ def index_tweet(tweet, table_name):
     response = table.put_item(
         Item=tweet
     )
+    time.sleep(creds.put_delay)
     return response
 
 

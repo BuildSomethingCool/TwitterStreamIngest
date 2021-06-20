@@ -11,3 +11,4 @@ docker = {
 }
 env = "prod"
 wait = 5
+put_delay = 1
