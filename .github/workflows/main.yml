@@ -2,6 +2,7 @@ name: CI
 
 # Controls when the action will run. 
 on:
+  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ main ]
   pull_request:
@@ -23,10 +24,15 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Build and deploy image
-        env: # Or as an environment variable
-          docker_key: ${{ secrets.DOCKER_KEY }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Build, tag, and push image to Amazon ECR
         run: |
-          echo $docker_key | docker login --username redpheonix77 --password-stdin
-          docker build -t redpheonix77/twitteringest .
-          docker push redpheonix77/twitteringest
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/t9y1m9m9
+          docker build -t public.ecr.aws/t9y1m9m9/twitter_ingest .
+          docker push public.ecr.aws/t9y1m9m9/twitter_ingest
