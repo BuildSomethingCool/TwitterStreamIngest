@@ -38,10 +38,8 @@ def main():
     # connect_to_endpoint(endpoint)
     topic = 'giannis'
     logger.info(f"Running stream for {topic}")
-    from threading import Thread
-    t = Thread(target=connect_to_stream_and_ingest, args=(topic,))
-    t.start()
-
+    connect_to_stream_and_ingest(topic)
+    
 
 if __name__ == "__main__":
     main()
