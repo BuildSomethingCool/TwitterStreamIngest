@@ -6,17 +6,17 @@
          "base": 0
       }
    ],
-   "cluster": "AWSBatch-refresh-dynamo-bf4005a1-e1ce-3330-bc29-70a747d48019",
+   "cluster": "twitterIngest",
    "count": 1,
    "enableECSManagedTags": true,
    "networkConfiguration": {
       "awsvpcConfiguration": {
          "assignPublicIp": "ENABLED",
          "securityGroups": [
-            "sg-826631fd"
+            "sg-0e600787b167e2041"
          ],
          "subnets": [
-            "subnet-07afa47d"
+            "subnet-05f131cd7a316feaa"
          ]
       }
    },
@@ -32,6 +32,6 @@
          "value": "Twitter Stream"
       }
    ],
-   "taskDefinition": "ingest_tweets:1"
+   "taskDefinition": "ingest_tweets"
 }
 

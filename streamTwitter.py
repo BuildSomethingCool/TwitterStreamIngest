@@ -36,7 +36,7 @@ def connect_to_endpoint(url):
 
 def main():
     # connect_to_endpoint(endpoint)
-    topic = 'phoenix suns'
+    topic = 'giannis'
     logger.info(f"Running stream for {topic}")
     connect_to_stream_and_ingest(topic)
     
