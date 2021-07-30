@@ -5,6 +5,7 @@ import logging
 from secretsManager import get_secret
 from dynamoDB import index_tweet
 from filtered_stream import connect_to_stream_and_ingest
+import os
 
 
 logger = logging.getLogger("twitter stream")
@@ -35,8 +36,8 @@ def connect_to_endpoint(url):
 
 
 def main():
-    # connect_to_endpoint(endpoint)
-    topic = 'giannis'
+    topic = os.getenv('TOPIC')
+    print(f"Topic is {topic}")
     logger.info(f"Running stream for {topic}")
     connect_to_stream_and_ingest(topic)
     

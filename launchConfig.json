@@ -20,7 +20,19 @@
          ]
       }
    },
-   "overrides": {},
+   "overrides": {
+      "containerOverrides": [
+         {
+            "name": "TwitterIngest",
+            "environment": [
+               {
+                  "name": "TOPIC",
+                  "value": "covid"
+               }
+            ]
+         }
+      ]
+   },
    "platformVersion": "LATEST",
    "tags": [
       {
