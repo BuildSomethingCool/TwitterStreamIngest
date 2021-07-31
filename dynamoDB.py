@@ -61,8 +61,8 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
             },
         ],
         ProvisionedThroughput={
-            'ReadCapacityUnits': 5,
-            'WriteCapacityUnits': 5
+            'ReadCapacityUnits': 1,
+            'WriteCapacityUnits': 1
         }
     )
     status = table.table_status
