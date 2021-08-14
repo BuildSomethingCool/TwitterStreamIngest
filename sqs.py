@@ -17,7 +17,7 @@ def publish_message(message, topic):
         QueueUrl=queue_url,
         MessageBody=message,
         MessageGroupId=twitter_message_group_id,
-        MessageDeduplicationId=topic
+        MessageDeduplicationId=topic.replace(' ', '_')
     )
 
     return send_response['MD5OfMessageBody']
