@@ -75,7 +75,7 @@ def connect_to_stream_and_ingest(topic):
     set_rules(topic)
     topic_no_space = topic.replace(' ', '_')
     table_name = f"RawTweets-{topic_no_space}"
-    create_landing_table(table_name=table_name)
+    create_landing_table(topic, table_name=table_name)
     url = "https://api.twitter.com/2/tweets/search/stream"
     params = {
         'tweet.fields': ['created_at']
