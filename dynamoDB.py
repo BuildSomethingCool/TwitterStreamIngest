@@ -2,15 +2,15 @@ import boto3
 import creds
 import time
 import logging
+from sqs import publish_message
 import json
-import sys
 
 wait_time = creds.wait
 landingTableName = "RawTweets"
 logger = logging.getLogger('dynamo')
 
 
-def create_landing_table(dynamodb=None, table_name=landingTableName):
+def create_landing_table(topic, dynamodb=None, table_name=landingTableName):
     if not dynamodb:
         dynamodb = boto3.resource('dynamodb')
 
@@ -73,6 +73,7 @@ def create_landing_table(dynamodb=None, table_name=landingTableName):
         status = table.table_status
 
     print(f"status is {status} returning {table}")
+    publish_message(table_name, topic)
     return table
 
 

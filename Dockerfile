@@ -5,6 +5,7 @@ WORKDIR /twitterStreamer
 COPY requirements.txt .
 COPY creds.py .
 COPY streamTwitter.py .
+COPY sqs.py .
 COPY dynamoDB.py .
 COPY secretsManager.py .
 COPY filtered_stream.py .
