@@ -6,9 +6,12 @@ queue_name = "twitter_queue.fifo"
 
 def publish_message(message, topic):
     client = boto3.client('sqs')
-    queue_url = client.get_queue_url(
-        QueueName=queue_name
-    )['QueueUrl']
+    queues = client.list_queues()['QueueUrls']
+    queue_url = ''
+    for _ in queues:
+        if queue_name in _:
+            queue_url = _
+            break
 
     send_response = client.send_message(
         QueueUrl=queue_url,
