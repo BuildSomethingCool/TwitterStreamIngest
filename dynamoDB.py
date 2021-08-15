@@ -10,7 +10,7 @@ landingTableName = "RawTweets"
 logger = logging.getLogger('dynamo')
 
 
-def create_landing_table(topic, dynamodb=None, table_name=landingTableName):
+def create_landing_table(topic, s3_bucket, dynamodb=None, table_name=landingTableName):
     if not dynamodb:
         dynamodb = boto3.resource('dynamodb')
 
@@ -73,7 +73,11 @@ def create_landing_table(topic, dynamodb=None, table_name=landingTableName):
         status = table.table_status
 
     print(f"status is {status} returning {table}")
-    publish_message(table_name, topic)
+    message = {
+        'table_name': table_name,
+        's3_bucket_name': s3_bucket
+    }
+    publish_message(json.dumps(message), topic)
     return table
 
 

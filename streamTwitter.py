@@ -18,9 +18,10 @@ headers = {"Authorization": "Bearer {}".format(token)}
 
 def main():
     topic = os.getenv('TOPIC')
+    data_store = os.getenv('S3_BUCKET')
     print(f"Topic is {topic}")
     logger.info(f"Running stream for {topic}")
-    connect_to_stream_and_ingest(topic)
+    connect_to_stream_and_ingest(topic, data_store)
     
 
 if __name__ == "__main__":
