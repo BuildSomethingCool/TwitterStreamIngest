@@ -2,5 +2,5 @@
 
 
 python3 streamTwitter.py &
-sleep 15m
+sleep 5m
 exit 0
